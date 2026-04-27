@@ -1,0 +1,6 @@
+@TeamGrid_HostAddress = http://localhost:5269
+
+GET {{TeamGrid_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
