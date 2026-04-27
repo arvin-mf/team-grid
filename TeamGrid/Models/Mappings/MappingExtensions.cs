@@ -5,4 +5,11 @@ public static class MappingExtensions
         Name = req.Name,
         Year = req.Year
     };
+
+    public static CourseDto ToDto(this Course c) => new()
+    {
+        Id = c.Id,
+        Name = c.Name,
+        Year = c.Year
+    };
 }

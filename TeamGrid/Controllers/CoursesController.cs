@@ -18,4 +18,12 @@ public class CoursesController : ControllerBase
 
         return Created("", new ApiSuccessResponse<int>(courseId, "Course successfully created"));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllCourses()
+    {
+        var courses = await _courseServ.GetAll();
+
+        return Ok(new ApiSuccessResponse<List<CourseDto>>(courses, "Courses successfully retrieved"));
+    }
 }

@@ -5,4 +5,9 @@ public static class CourseQueries
         VALUES (@name, @year)
         RETURNING id;
     ";
+
+    public const string FindAll = @"
+        SELECT * FROM courses
+        ORDER BY year DESC, name;
+    ";
 }

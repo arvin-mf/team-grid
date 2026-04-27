@@ -3,6 +3,7 @@ using Dapper;
 public interface ICourseRepository
 {
     Task<int> Insert(Course c);
+    Task<List<Course>> FindAll();
 }
 
 public class CourseRepository : ICourseRepository
@@ -25,5 +26,16 @@ public class CourseRepository : ICourseRepository
                 year = c.Year
             }
         );
+    }
+
+    public async Task<List<Course>> FindAll()
+    {
+        var connection = _db.Create();
+
+        var rows = await connection.QueryAsync<Course>(
+            CourseQueries.FindAll
+        );
+
+        return rows.ToList();
     }
 }
