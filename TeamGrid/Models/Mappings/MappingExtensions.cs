@@ -6,6 +6,11 @@ public static class MappingExtensions
         Year = req.Year
     };
 
+    public static Course ToEntity(this SetCourseNameRequest req) => new()
+    {
+        Name = req.Name
+    };
+
     public static CourseDto ToDto(this Course c) => new()
     {
         Id = c.Id,

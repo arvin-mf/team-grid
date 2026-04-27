@@ -26,4 +26,12 @@ public class CoursesController : ControllerBase
 
         return Ok(new ApiSuccessResponse<List<CourseDto>>(courses, "Courses successfully retrieved"));
     }
+
+    [HttpPatch("{id}/name")]
+    public async Task<IActionResult> SetCourseName(int id, [FromBody] SetCourseNameRequest req)
+    {
+        await _courseServ.SetName(id, req);
+
+        return Ok(new ApiSuccessResponse<object>(null, "Course successfully updated"));
+    }
 }

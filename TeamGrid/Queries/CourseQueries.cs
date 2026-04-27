@@ -10,4 +10,9 @@ public static class CourseQueries
         SELECT * FROM courses
         ORDER BY year DESC, name;
     ";
+
+    public const string SetName = @"
+        UPDATE courses SET name = @name
+        WHERE id = @id;
+    ";
 }

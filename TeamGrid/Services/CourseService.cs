@@ -2,6 +2,7 @@ public interface ICourseService
 {
     Task<int> Create(CreateCourseRequest req);
     Task<List<CourseDto>> GetAll();
+    Task SetName(int id, SetCourseNameRequest req);
 }
 
 public class CourseService : ICourseService
@@ -25,5 +26,18 @@ public class CourseService : ICourseService
         var courses = await _repo.FindAll();
 
         return courses.Select(c => c.ToDto()).ToList();
+    }
+
+    public async Task SetName(int id, SetCourseNameRequest req)
+    {
+        var course = req.ToEntity();
+
+        course.Id = id;
+
+        var rowsAffected = await _repo.SetName(course);
+        if (rowsAffected == 0)
+        {
+            throw new KeyNotFoundException("no rows affected");
+        } 
     }
 }
