@@ -37,7 +37,7 @@ public class CourseService : ICourseService
         var rowsAffected = await _repo.SetName(course);
         if (rowsAffected == 0)
         {
-            throw new KeyNotFoundException("no rows affected");
+            throw new KeyNotFoundException($"the requested course with ID {id} does not exist");
         } 
     }
 }
