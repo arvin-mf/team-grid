@@ -2,7 +2,12 @@ using System.Data;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
-public class DbConnectionFactory
+public interface IDbConnectionFactory
+{
+    IDbConnection Create();
+}
+
+public class DbConnectionFactory : IDbConnectionFactory
 {
     private readonly string _connectionString;
 
