@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-DotNetEnv.Env.Load();
+DotNetEnv.Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
