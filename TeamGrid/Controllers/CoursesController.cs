@@ -44,4 +44,12 @@ public class CoursesController : ControllerBase
 
         return Created("", new ApiSuccessResponse<int>(classId, "Class successfully created"));
     }
+
+    [HttpGet("{id}/classes")]
+    public async Task<IActionResult> GetClassesByCourse(int id)
+    {
+        var classes = await _classServ.GetByCourseId(id);
+
+        return Ok(new ApiSuccessResponse<List<ClassDto>>(classes, "Classes successfully retrieved"));
+    }
 }

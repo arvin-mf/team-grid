@@ -3,6 +3,7 @@ using Dapper;
 public interface IClassRepository
 {
     Task<int> Insert(Class c);
+    Task<List<Class>> FindByCourseId(int courseId);
 }
 
 public class ClassRepository : IClassRepository
@@ -25,5 +26,19 @@ public class ClassRepository : IClassRepository
                 course_id = c.CourseId
             }
         );
+    }
+
+    public async Task<List<Class>> FindByCourseId(int courseId)
+    {
+        using var connection = _db.Create();
+
+        var rows = await connection.QueryAsync<Class>(
+            ClassQueries.FindByCourseId,
+            new {
+                course_id = courseId
+            }
+        );
+
+        return rows.ToList();
     }
 }

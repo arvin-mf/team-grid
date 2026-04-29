@@ -22,4 +22,11 @@ public static class MappingExtensions
     {
         Name = req.Name
     };
+
+    public static ClassDto ToDto(this Class c) => new()
+    {
+        Id = c.Id,
+        Name = c.Name,
+        CourseId = c.CourseId
+    };
 }

@@ -11,6 +11,11 @@ public class DbConnectionFactory : IDbConnectionFactory
 {
     private readonly string _connectionString;
 
+    static DbConnectionFactory()
+    {
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+    }
+
     public DbConnectionFactory(IConfiguration config)
     {
         var host = config["DB_HOST"];
