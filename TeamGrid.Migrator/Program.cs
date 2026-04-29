@@ -7,7 +7,7 @@ class Program
     static int Main(string[] args)
     {
         var root = Directory.GetCurrentDirectory();
-        var envPath = Path.Combine(root, "..", "TeamGrid", ".env");
+        var envPath = Path.Combine(root, ".env");
         Env.Load(envPath);
 
         var host = Env.GetString("DB_HOST");
@@ -18,7 +18,7 @@ class Program
 
         var connectionString = $"Host={host};Port={port};Database={name};Username={user};Password={pass}";
 
-        var filesPath = Path.Combine(root, "..", "TeamGrid", "Infrastructure", "Database", "Migrations");
+        var filesPath = Path.Combine(root, "TeamGrid", "Infrastructure", "Database", "Migrations");
 
         EnsureDatabase.For.PostgresqlDatabase(connectionString);
 
