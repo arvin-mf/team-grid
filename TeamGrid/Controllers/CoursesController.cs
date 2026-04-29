@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 public class CoursesController : ControllerBase
 {
     private readonly ICourseService _courseServ;
+    private readonly IClassService _classServ;
 
-    public CoursesController(ICourseService courseServ)
+    public CoursesController(ICourseService courseServ, IClassService classServ)
     {
         _courseServ = courseServ;
+        _classServ = classServ;
     }
 
     [HttpPost]
@@ -33,5 +35,13 @@ public class CoursesController : ControllerBase
         await _courseServ.SetName(id, req);
 
         return Ok(new ApiSuccessResponse<object>(null, "Course successfully updated"));
+    }
+
+    [HttpPost("{id}/classes")]
+    public async Task<IActionResult> CreateClass(int id, [FromBody] CreateClassRequest req)
+    {
+        var classId = await _classServ.Create(id, req);
+
+        return Created("", new ApiSuccessResponse<int>(classId, "Class successfully created"));
     }
 }

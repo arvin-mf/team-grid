@@ -1,0 +1,5 @@
+CREATE TABLE classes (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    course_id INT NOT NULL REFERENCES courses(id) ON DELETE CASCADE
+);

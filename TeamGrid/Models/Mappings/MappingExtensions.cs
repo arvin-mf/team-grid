@@ -17,4 +17,9 @@ public static class MappingExtensions
         Name = c.Name,
         Year = c.Year
     };
+
+    public static Class ToEntity(this CreateClassRequest req) => new()
+    {
+        Name = req.Name
+    };
 }
