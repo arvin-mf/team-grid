@@ -1,6 +1,7 @@
 public interface IClassService
 {
     Task<int> Create(int courseId, CreateClassRequest req);
+    Task<List<ClassDto>> GetByCourseId(int courseId);
 }
 
 public class ClassService : IClassService
@@ -19,5 +20,12 @@ public class ClassService : IClassService
         cls.CourseId = courseId;
 
         return await _repo.Insert(cls); 
+    }
+
+    public async Task<List<ClassDto>> GetByCourseId(int courseId)
+    {
+        var classes = await _repo.FindByCourseId(courseId);
+
+        return classes.Select(c => c.ToDto()).ToList();
     }
 }

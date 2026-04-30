@@ -22,4 +22,23 @@ public static class MappingExtensions
     {
         Name = req.Name
     };
+
+    public static ClassDto ToDto(this Class c) => new()
+    {
+        Id = c.Id,
+        Name = c.Name,
+        CourseId = c.CourseId
+    };
+
+    public static Team ToEntity(this CreateTeamRequest req) => new()
+    {
+        Number = req.Number
+    };
+
+    public static TeamDto ToDto(this Team t) => new()
+    {
+        Id = t.Id,
+        Number = t.Number,
+        ClassId = t.ClassId
+    };
 }
