@@ -54,10 +54,10 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet("{id}/schedule")]
-    public async Task<IActionResult> GenerateSchedule(int id, string number_of_session, string max_persession)
+    public async Task<IActionResult> GenerateSchedule(int id, int max_persession)
     {
-        // var schedule = await _courseServ.
+        var schedule = await _courseServ.GenerateSchedule(id, max_persession);
 
-        return Ok(new ApiSuccessResponse<ScheduleDto>(null, "Schedule successfully generated"));
+        return Ok(new ApiSuccessResponse<ScheduleDto>(schedule, "Schedule successfully generated"));
     }
 }
