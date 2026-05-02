@@ -56,11 +56,8 @@ public class CourseService : ICourseService
             c => c.Name
         );
 
-        var teamNames = teams.Select(t => $"{classMap[t.ClassId]}{t.Number}").ToList();
-        var teamNameToIdMap = teams.ToDictionary(
-            t => $"{classMap[t.ClassId]}{t.Number}",
-            t => t.Id
-        );
+        var teamNameToIdMap = MapTeamNamesToIds(teams, classMap);
+        var teamNames = teamNameToIdMap.Keys.ToList();
 
         var rg = new Random();
         var shuffledTeamNames = teamNames.OrderBy(_ => rg.Next()).ToList();
@@ -73,6 +70,14 @@ public class CourseService : ICourseService
             Course = course,
             Sessions = distributed
         };
+    }
+
+    public Dictionary<string, int> MapTeamNamesToIds(List<Team> teams, Dictionary<int, string> classes)
+    {
+        return teams.ToDictionary(
+            t => $"{classes[t.ClassId]}{t.Number}",
+            t => t.Id
+        );
     }
 
     public List<Session> DistributeTeams(List<string> teamNames, Dictionary<string, int> ids, int max)
