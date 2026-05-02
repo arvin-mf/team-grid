@@ -107,9 +107,9 @@ public class CourseService : ICourseService
 
                     currentIdx++;
                 }
-
-                sessions.Add(session);
             }
+
+            sessions.Add(session);
         }
 
         return sessions;
