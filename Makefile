@@ -12,3 +12,6 @@ compose-down:
 
 compose-logs-db:
 	docker compose logs -f db
+
+test:
+	dotnet test TeamGrid.Tests/TeamGrid.Tests.csproj
