@@ -15,4 +15,9 @@ public static class CourseQueries
         UPDATE courses SET name = @name
         WHERE id = @id;
     ";
+
+    public const string FindById = @"
+        SELECT * FROM courses
+        WHERE id = @id;
+    ";
 }

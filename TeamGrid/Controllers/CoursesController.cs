@@ -52,4 +52,12 @@ public class CoursesController : ControllerBase
 
         return Ok(new ApiSuccessResponse<List<ClassDto>>(classes, "Classes successfully retrieved"));
     }
+
+    [HttpGet("{id}/schedule")]
+    public async Task<IActionResult> GenerateSchedule(int id, int max_persession)
+    {
+        var schedule = await _courseServ.GenerateSchedule(id, max_persession);
+
+        return Ok(new ApiSuccessResponse<ScheduleDto>(schedule, "Schedule successfully generated"));
+    }
 }
