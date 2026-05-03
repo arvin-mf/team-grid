@@ -53,3 +53,26 @@ To run the API application directly:
 ```
 make app
 ```
+
+---
+Other commands available in `Makefile`
+
+```
+make compose-logs-db
+```
+
+```
+make compose-down
+```
+
+```
+make test
+```
+
+# API Documentation
+
+The API endpoints are fully documented in a Postman collection. You can explore the available routes, request parameters, and example responses by visiting the link below:
+
+[View Postman Documentation](https://documenter.getpostman.com/view/47592718/2sBXqKofcY)
+
+---
