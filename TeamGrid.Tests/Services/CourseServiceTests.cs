@@ -21,6 +21,25 @@ public class CourseServiceTests
     }
 
     [Fact]
+    public async Task SetName_NotFound()
+    {
+        var courseRepo = new Mock<ICourseRepository>();
+        var service = new CourseService(courseRepo.Object, null, null);
+
+        var f = new Faker();
+        int courseId = f.Random.Number(1, 100);
+        var req = new SetCourseNameRequest { Name = f.Random.String() };
+
+        courseRepo.Setup(r => r.SetName(It.IsAny<Course>())).ReturnsAsync(0);
+
+        var act = () => service.SetName(courseId, req);
+        
+        await Assert.ThrowsAsync<KeyNotFoundException>(act);
+
+        courseRepo.Verify(r => r.SetName(It.Is<Course>(c => c.Id == courseId)), Times.Once);
+    }
+
+    [Fact]
     public void DistributeTeams()
     {
         var service = new CourseService(null, null, null);
