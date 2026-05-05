@@ -1,8 +1,25 @@
-using System.Reflection;
 using Bogus;
+using Moq;
 
 public class CourseServiceTests
 {
+    [Fact]
+    public async Task SetName_Success()
+    {
+        var courseRepo = new Mock<ICourseRepository>();
+        var service = new CourseService(courseRepo.Object, null, null);
+
+        var f = new Faker();
+        int courseId = f.Random.Number(1, 100);
+        var req = new SetCourseNameRequest { Name = f.Random.String() };
+
+        courseRepo.Setup(r => r.SetName(It.IsAny<Course>())).ReturnsAsync(1);
+
+        await service.SetName(courseId, req);
+
+        courseRepo.Verify(r => r.SetName(It.Is<Course>(c => c.Id == courseId)), Times.Once);
+    }
+
     [Fact]
     public void DistributeTeams()
     {
@@ -37,7 +54,7 @@ public class CourseServiceTests
         int expectedSessionCount = (int)Math.Ceiling((double)teamCount / maxPerSession);
         var resultTeams = result.SelectMany(s => s.Teams).ToList();
 
-        //assertion
+        // assertion
         Assert.Equal(expectedSessionCount, result.Count);
         Assert.Equal(teamCount, resultTeams.Count);
         Assert.Distinct(resultTeams.Select(t => t.TeamId));
