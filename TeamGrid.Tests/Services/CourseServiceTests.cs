@@ -92,4 +92,44 @@ public class CourseServiceTests
             }
         }
     }
+
+    [Fact]
+    public void MapTeamNamesToIds_Success()
+    {
+        var service = new CourseService(null, null, null);
+
+        // setup faker and data preparation
+        var f = new Faker();
+        int classCount = f.Random.Number(1, 10);
+        int teamCount = f.Random.Number(1, 35);
+        int classId = 1;
+
+        var classMap = Enumerable.Range(1, classCount).ToDictionary(
+            id => classId++, id => ((char)('A' + id - 1)).ToString()
+        );
+
+        var counterPerClass = classMap.Keys.ToDictionary(
+            id => id, _ => 1
+        );
+        var teamFaker = new Faker<Team>()
+            .RuleFor(t => t.Id, f => f.IndexFaker + 1)
+            .RuleFor(t => t.ClassId, f => f.PickRandom(classMap.Keys.ToList()))
+            .RuleFor(t => t.Number, (f, t) => counterPerClass[t.ClassId]++);
+
+        var teams = teamFaker.Generate(teamCount);
+
+        // execution
+        var result = service.MapTeamNamesToIds(teams, classMap);
+
+        // assertion
+        Assert.NotNull(result);
+        Assert.Equal(teamCount, result.Count);
+        foreach (var t in teams)
+        {
+            var key = $"{classMap[t.ClassId]}{t.Number}";
+            Assert.Contains(key, result.Keys);
+            Assert.Equal(t.Id, result[key]);
+        }
+        Assert.Equivalent(teams.Select(t => t.Id), result.Values);
+    }
 }
