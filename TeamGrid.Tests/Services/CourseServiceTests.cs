@@ -132,4 +132,62 @@ public class CourseServiceTests
         }
         Assert.Equivalent(teams.Select(t => t.Id), result.Values);
     }
+
+    [Fact]
+    public void MapTeamNamesToIds_EmptyTeams()
+    {
+        var service = new CourseService(null, null, null);
+
+        var teams = new List<Team>();
+
+        var classMap = new Dictionary<int, string> {
+            { 1, "A" }
+        };
+
+        var result = service.MapTeamNamesToIds(teams, classMap);
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void MapTeamNamesToIds_ClassIDNotFound()
+    {
+        var service = new CourseService(null, null, null);
+
+        var teams = new List<Team> { 
+            new Team {
+                Id = 1,
+                ClassId = 20,
+                Number = 1
+            }
+        };
+
+        var classMap = new Dictionary<int, string> {
+            { 1, "A" }
+        };
+
+        var act = () => service.MapTeamNamesToIds(teams, classMap);
+
+        Assert.Throws<KeyNotFoundException>(act);
+    }
+
+    [Fact]
+    public void MapTeamNamesToIds_DuplicateKey()
+    {
+        var service = new CourseService(null, null, null);
+
+        var teams = new List<Team> { 
+            new Team { Id = 1, ClassId = 1, Number = 1 },
+            new Team { Id = 2, ClassId = 2, Number = 1 }
+        };
+
+        var classMap = new Dictionary<int, string> {
+            { 1, "A" },
+            { 2, "A" }
+        };
+
+        var act = () => service.MapTeamNamesToIds(teams, classMap);
+
+        Assert.Throws<ArgumentException>(act);
+    }
 }
